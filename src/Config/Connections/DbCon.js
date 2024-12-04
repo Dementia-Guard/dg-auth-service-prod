@@ -1,5 +1,6 @@
 import admin from 'firebase-admin';
 import { config } from '../Env/EnvConfig.js';
+import { fromBase64 } from '../../Helpers/Encoder/EncodeCredKey.js';
 
 let db = null;
 
@@ -7,8 +8,9 @@ let db = null;
 export const initializeDb = () => {
     try {
         if (!admin.apps.length) {  // Ensures the SDK is not initialized multiple times
+            const decodedKey = fromBase64(config.firebase.serviceCred);
             admin.initializeApp({
-                credential: admin.credential.cert(JSON.parse(config.firebase.serviceCred)),
+                credential: admin.credential.cert(JSON.parse(decodedKey)),
                 databaseURL: config.firebase.databaseUrl
             });
             db = admin.firestore();

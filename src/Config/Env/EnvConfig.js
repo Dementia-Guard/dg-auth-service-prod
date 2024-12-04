@@ -15,5 +15,5 @@ export const config = {
         appId: process.env.FIREBASE_APP_ID,
         measurementId: process.env.FIREBASE_MEASUREMENT_ID,
         serviceCred:process.env.FIREBASE_SERVICE_CRED_KEY
-    }
+    }   
 };
