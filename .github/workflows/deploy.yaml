@@ -45,24 +45,23 @@ jobs:
           docker push "${DOCKER_TAG}"
 
       - name: Deploy to Cloud Run
-        uses: google-github-actions/deploy-cloudrun@v2
-        with:
-          service: ${{ env.GCR_SERVICE }}
-          image: ${{ env.GAR_REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.GAR_REPO_NAME }}/${{ env.GAR_IMAGE_NAME }}:${{ github.sha }}
-          region: ${{ env.GCR_REGION }}
-          port: 8457
-          allow_unauthenticated: true
-          env_vars: |-
-            AUTH_SERVER_PORT=${{ secrets.AUTH_SERVER_PORT }}
-            FIREBASE_API_KEY=${{ secrets.FIREBASE_API_KEY }}
-            FIREBASE_AUTH_DOMAIN=${{ secrets.FIREBASE_AUTH_DOMAIN }}
-            FIREBASE_PROJECT_ID=${{ secrets.FIREBASE_PROJECT_ID }}
-            FIREBASE_STORAGE_BUCKET=${{ secrets.FIREBASE_STORAGE_BUCKET }}
-            FIREBASE_DATABASE_URL=${{ secrets.FIREBASE_DATABASE_URL }}
-            FIREBASE_MESSAGING_SENDER_ID=${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}
-            FIREBASE_APP_ID=${{ secrets.FIREBASE_APP_ID }}
-            FIREBASE_MEASUREMENT_ID=${{ secrets.FIREBASE_MEASUREMENT_ID }}
-            FIREBASE_SERVICE_CRED_KEY=${{ secrets.FIREBASE_SERVICE_CRED_KEY }}
+        run: |
+          gcloud run deploy ${{ env.GCR_SERVICE }} \
+            --image ${{ env.GAR_REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.GAR_REPO_NAME }}/${{ env.GAR_IMAGE_NAME }}:${{ github.sha }} \
+            --platform managed \
+            --region ${{ env.GCR_REGION }} \
+            --port 8457 \
+            --allow-unauthenticated \
+            --set-env-vars AUTH_SERVER_PORT=${{ secrets.AUTH_SERVER_PORT }} \
+            --set-env-vars FIREBASE_API_KEY=${{ secrets.FIREBASE_API_KEY }} \
+            --set-env-vars FIREBASE_AUTH_DOMAIN=${{ secrets.FIREBASE_AUTH_DOMAIN }} \
+            --set-env-vars FIREBASE_PROJECT_ID=${{ secrets.FIREBASE_PROJECT_ID }} \
+            --set-env-vars FIREBASE_STORAGE_BUCKET=${{ secrets.FIREBASE_STORAGE_BUCKET }} \
+            --set-env-vars FIREBASE_DATABASE_URL=${{ secrets.FIREBASE_DATABASE_URL }} \
+            --set-env-vars FIREBASE_MESSAGING_SENDER_ID=${{ secrets.FIREBASE_MESSAGING_SENDER_ID }} \
+            --set-env-vars FIREBASE_APP_ID=${{ secrets.FIREBASE_APP_ID }} \
+            --set-env-vars FIREBASE_MEASUREMENT_ID=${{ secrets.FIREBASE_MEASUREMENT_ID }} \
+            --set-env-vars FIREBASE_SERVICE_CRED_KEY=${{ secrets.FIREBASE_SERVICE_CRED_KEY }}
 
       - name: "Show output"
         run: |2-
