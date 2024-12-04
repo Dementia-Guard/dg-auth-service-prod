@@ -18,16 +18,23 @@ app.use(express.json())
 connectDB()
 
 app.get('/', (req, res) => {
-    return response(res,200, ResTypes.successMessages.server_online)
+    return response(res, 200, ResTypes.successMessages.server_online)
 })
 
 //routes init
-app.use('/service',AuthRoute)
+app.use('/service', AuthRoute)
 
 app.use((req, res) => {
-    return response(res, 404, {message:"Endpoint not found"})
+    return response(res, 404, { message: "Endpoint not found" })
 })
 
-app.listen(PORT, () => {
-    console.log(`Auth Server is listening on ${PORT}`);
-})
+// call listen in a production environment
+if (process.env.NODE_ENV !== 'test') {
+    const PORT = process.env.PORT || 8457;
+    app.listen(PORT, () => {
+        console.log(`Auth Server is listening on ${PORT}`);
+    });
+}
+
+// Export the app instance, for testing
+export default app;

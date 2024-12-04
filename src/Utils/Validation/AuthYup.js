@@ -1,4 +1,4 @@
-import yup from 'yup'
+import * as yup from 'yup'
 import role from '../Constants/Role.js'
 
 class AuthYup {
