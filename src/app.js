@@ -9,13 +9,11 @@ import { connectDB } from "./Config/Connections/DbCon.js";
 
 dotenv.config()
 const app = express()
-const PORT = process.env.AUTH_SERVER_PORT || 8457
 
 app.use(cors(corsOption))
 app.use(express.json())
 
-// establish firestore connection
-connectDB()
+connectDB();
 
 app.get('/', (req, res) => {
     return response(res, 200, ResTypes.successMessages.server_online)
@@ -30,7 +28,7 @@ app.use((req, res) => {
 
 // call listen in a production environment
 if (process.env.NODE_ENV !== 'test') {
-    const PORT = process.env.PORT || 8457;
+    const PORT = process.env.AUTH_SERVER_PORT || 8457;
     app.listen(PORT, () => {
         console.log(`Auth Server is listening on ${PORT}`);
     });
