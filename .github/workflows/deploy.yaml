@@ -61,7 +61,7 @@ jobs:
             --set-env-vars FIREBASE_MESSAGING_SENDER_ID=${{ secrets.FIREBASE_MESSAGING_SENDER_ID }} \
             --set-env-vars FIREBASE_APP_ID=${{ secrets.FIREBASE_APP_ID }} \
             --set-env-vars FIREBASE_MEASUREMENT_ID=${{ secrets.FIREBASE_MEASUREMENT_ID }} \
-            --set-env-vars FIREBASE_SERVICE_CRED_KEY=${{ secrets.FIREBASE_SERVICE_CRED_KEY }}
+            --set-env-vars "^##^FIREBASE_SERVICE_CRED_KEY=${{ secrets.FIREBASE_SERVICE_CRED_KEY }}"
 
       - name: "Show output"
         run: |2-
